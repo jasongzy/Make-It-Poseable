@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+    content="Make-It-Poseable: Feed-forward Latent Posing Model for 3D Humanoid Character Animation">
+  <meta name="keywords" content="Make-It-Poseable">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Make-It-Poseable</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script> -->
+  <!-- <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script> -->
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+  <!-- <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+        <a class="navbar-item" href="https://keunhong.com">
+          <span class="icon">
+            <i class="fas fa-home"></i>
+          </span>
+        </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            More Research
+          </a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://hypernerf.github.io">
+              HyperNeRF
+            </a>
+            <a class="navbar-item" href="https://nerfies.github.io">
+              Nerfies
+            </a>
+            <a class="navbar-item" href="https://latentfusion.github.io">
+              LatentFusion
+            </a>
+            <a class="navbar-item" href="https://photoshape.github.io">
+              PhotoShape
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </nav> -->
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              Make-It-Poseable:<br>Feed-forward Latent Posing Model for 3D Humanoid Character Animation
+            </h1>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://jasongzy.github.io">Zhiyang Guo</a>,
+                <!-- <sup>1,2</sup>, -->
+              </span>
+              <span class="author-block">
+                <a href="https://www.ran-zhang.com/">Ori Zhang</a>,
+                <!-- <sup>2</sup>, -->
+              </span>
+              <span class="author-block">
+                <a href="">Jax Xiang</a>,
+                <!-- <sup>2</sup>, -->
+              </span>
+              <span class="author-block">
+                <a href="">Alan Zhao</a>,
+                <!-- <sup>2</sup>, -->
+              </span>
+              <span class="author-block">
+                <a href="http://staff.ustc.edu.cn/~zhwg/index.html">Wengang Zhou</a>,
+                <!-- <sup>1</sup>, -->
+              </span>
+              <span class="author-block">
+                <a href="http://staff.ustc.edu.cn/~lihq/en/">Houqiang Li</a>
+                <!-- <sup>1</sup> -->
+              </span>
+            </div>
+
+            <!-- <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>University of Science and Technology of China,</span>
+              <span class="author-block"><sup>2</sup>Tencent</span>
+            </div> -->
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/pdf/" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                    </span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Video Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://www.youtube.com/watch?v=mH6L9r_28LA"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                    </span>
+                    <span>Video</span>
+                  </a>
+                </span> -->
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href="https://github.com/jasongzy/Make-It-Poseable"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code (WIP)</span>
+                  </a>
+                </span>
+                <!-- Dataset Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://huggingface.co/datasets/jasongzy/Mixamo"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="far fa-images"></i>
+                    </span>
+                    <span>Data</span>
+                  </a>
+                </span> -->
+                <!-- Model Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://huggingface.co/jasongzy/Make-It-Animatable"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="far fa-file-archive"></i>
+                    </span>
+                    <span>Model</span>
+                  </a>
+                </span> -->
+                <!-- Demo Link. -->
+                <!-- <span class="link-block">
+                  <a href="https://huggingface.co/spaces/jasongzy/Make-It-Animatable"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span>🤗 Demo</span>
+                  </a>
+                </span> -->
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <img src="./static/images/teaser.jpg">
+        <h2 class="subtitle has-text-centered">
+          <span class="dnerf">Make-It-Poseable</span> re-poses any 3D humanoid model in a single feed-forward pass.
+          Unlike auto-rigging or generative approaches that often suffer from skinning artifacts or limited
+          controllability, our latent posing paradigm
+          robustly handles challenging cases and produces high-fidelity animation results.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- <section class="hero is-light is-small">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-centered">
+          <div class="column">
+            <div class="content">
+              <video autoplay muted loop playsinline height="100%">
+                <source src="./static/videos/showcase_lq.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="column">
+            <div class="content">
+              <video autoplay muted loop playsinline height="100%">
+                <source src="./static/videos/showcase_gs_lq.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section> -->
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+
+      <!-- Paper video. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <!-- <h2 class="title is-3">Video</h2> -->
+          <div class="publication-video">
+            <!-- <iframe src="https://www.youtube.com/embed/mH6L9r_28LA?si=RTu2Dp9MPjXI-_Lv" frameborder="0"
+              allow="autoplay; encrypted-media" allowfullscreen></iframe> -->
+            <video autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/show_lq.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+      <!--/ Paper video. -->
+
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Posing 3D characters is a fundamental task in computer graphics and vision. However, existing methods like
+              auto-rigging and pose-conditioned generation often struggle with challenges such as inaccurate skinning
+              weight prediction, topological imperfections, and poor pose conformance, limiting their robustness and
+              generalizability.
+            </p>
+            <p>
+              To overcome these limitations, we introduce <span class="dnerf">Make-It-Poseable</span>, a novel
+              feed-forward framework that reformulates character posing as a latent-space transformation problem.
+              Instead of deforming mesh vertices as in traditional pipelines, our method reconstructs the character in
+              new poses by directly manipulating its latent representation.
+              At the core of our method is a latent posing transformer that manipulates shape tokens based on skeletal
+              motion. This process is facilitated by a dense pose representation for precise control. To ensure
+              high-fidelity geometry and accommodate topological changes, we also introduce a latent-space supervision
+              strategy and an adaptive completion module.
+            </p>
+            <p>
+              Our method demonstrates superior performance in posing quality. It also naturally extends to 3D editing
+              applications like part replacement and refinement.
+            </p>
+          </div>
+          <img src="./static/images/pipeline.jpg" alt="pipline_figure">
+          <!-- <video id="teaser" autoplay muted loop playsinline height="100%">
+            <source src="./static/videos/pipeline.mp4" type="video/mp4">
+          </video> -->
+        </div>
+      </div>
+      <!--/ Abstract. -->
+
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="content">
+            <h2 class="title is-3">Design Details</h2>
+            <div class="has-text-centered">
+              <img src="./static/images/tokens.jpg" style="width: 80%; height: auto;">
+            </div>
+            <p>
+              <b>(a)</b> The skeleton encoder produces dense pose representations with latent-level one-to-one
+              correspondence.<br>
+              <b>(b)</b> Latent-space supervision ensures a semantically meaningful token transformation path to
+              preserve
+              geometric details.<br>
+              <b>(c)</b> Adaptive tokens are introduced in the finetuning stage to handle newly exposed structures after
+              deformation.
+            </p>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column">
+          <div class="content">
+            <h2 class="title is-3">Qualitative Comparison</h2>
+            <p>
+              <span class="dnerf">Make-It-Poseable</span> produces high-fidelity results across various cases.
+              It robustly handles challenging inputs where auto-rigging methods produce significant artifacts,
+              and gives better pose conformance and detail preservation compared to the pose-conditioned 3D generation
+              method.
+            </p>
+            <div class="has-text-centered">
+              <img src="./static/images/compare.jpg" style="width: 80%; height: auto;">
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+
+        <div class="column">
+          <div class="content">
+            <h2 class="title is-3">Web Demo</h2>
+            <p>
+              A Gradio-based demo for interactive posing workflow:
+            </p>
+            <video autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/screen_record_lq.mp4" type="video/mp4">
+            </video>
+
+            <!-- <div class="container is-max-desktop">
+              <div id="results-carousel" class="carousel results-carousel">
+                <div class="item">
+                  <video poster="" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/bunny_demo.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="item">
+                  <video poster="" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/biden_demo.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="item">
+                  <video poster="" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/biden_blender.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="item">
+                  <video poster="" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/boy_demo.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="item">
+                  <video poster="" autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/boy_blender.mp4" type="video/mp4">
+                  </video>
+                </div>
+              </div>
+            </div> -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+
+        <div class="column">
+          <div class="content">
+            <h2 class="title is-3">Applications</h2>
+
+            <p>
+              <span class="dnerf">Make-It-Poseable</span> can facilitate character animation in two ways:<br>
+              (1) First re-pose the input mesh into a rest pose with limbs fully extended (effectively resolving the
+              skinning and topology issues), then rig and animate it using standard workflows.<br>
+              (2) Directly apply target motions to generate a mesh sequence, leveraging our method's detail consistency
+              and fast speed.
+            </p>
+            <video autoplay controls muted loop playsinline height="100%">
+              <source src="./static/videos/animation_lq.mp4" type="video/mp4">
+            </video>
+
+            <br><br>
+
+            <p>
+              The fine-grained control offered by our latent-space modeling also enables some 3D editing applications
+              such as
+              segmentation, replacement, and refinement of body parts.
+            </p>
+            <div class="has-text-centered">
+              <img src="./static/images/applications.jpg" style="width: 50%; height: auto;">
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+  </section>
+
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">Citation</h2>
+      <pre><code>@article{guo2025make,
+    author={Guo, Zhiyang and Zhang, Ran and Xiang, Jinxu and Zhao, Alan and Zhou, Wengang and Li, Houqiang},
+    title={Make-It-Poseable: Feed-forward Latent Posing Model for 3D Humanoid Character Animation},
+    journal={arXiv preprint arXiv:},
+    year={2025},
+}</code></pre>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <!-- <a class="icon-link" href="./static/videos/nerfies_paper.pdf">
+          <i class="fas fa-file-pdf"></i>
+        </a> -->
+        <a class="icon-link" href="https://github.com/jasongzy" class="external-link" disabled>
+          <i class="fab fa-github"></i>
+        </a>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <!-- <p>
+              This website is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+                Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+            <p>
+              This means you are free to borrow the <a href="https://github.com/nerfies/nerfies.github.io">source
+                code</a> of this website,
+              we just ask that you link back to this page in the footer.
+              Please remember to remove the analytics code included in the header of the website which
+              you do not want on your website.
+            </p> -->
+            <p>This website is constructed using the template provided by
+              <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
