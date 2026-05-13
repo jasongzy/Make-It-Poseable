@@ -3,8 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="description"
-    content="Make-It-Poseable: Feed-forward Latent Posing Model for 3D Humanoid Character Animation">
+  <meta name="description" content="Make-It-Poseable: Feed-forward Latent Posing Model for 3D Characters">
   <meta name="keywords" content="Make-It-Poseable">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Make-It-Poseable</title>
@@ -89,7 +88,7 @@
         <div class="columns is-centered">
           <div class="column has-text-centered">
             <h1 class="title is-1 publication-title">
-              Make-It-Poseable:<br>Feed-forward Latent Posing Model for 3D Humanoid Character Animation
+              Make-It-Poseable:<br>Feed-forward Latent Posing Model for 3D Characters
             </h1>
 
             <div class="is-size-5 publication-authors">
@@ -108,6 +107,10 @@
               <span class="author-block">
                 <a href="">Alan Zhao</a>,
                 <!-- <sup>2</sup>, -->
+              </span>
+              <span class="author-block">
+                <a href="">Zhenxun Yuan</a>,
+                <!-- <sup>1</sup>, -->
               </span>
               <span class="author-block">
                 <a href="http://staff.ustc.edu.cn/~zhwg/index.html">Wengang Zhou</a>,
@@ -204,10 +207,10 @@
       <div class="hero-body">
         <img src="./static/images/teaser.jpg">
         <h2 class="subtitle has-text-centered">
-          <span class="dnerf">Make-It-Poseable</span> re-poses any 3D humanoid model in a single feed-forward pass.
+          <span class="dnerf">Make-It-Poseable</span> re-poses any 3D character model in a single feed-forward pass.
           Unlike auto-rigging or generative approaches that often suffer from skinning artifacts or limited
-          controllability, our latent posing paradigm
-          robustly handles challenging cases and produces high-fidelity animation results.
+          controllability, our latent posing paradigm robustly handles challenging cases and produces high-fidelity
+          results.
         </h2>
       </div>
     </div>
@@ -260,24 +263,26 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              Posing 3D characters is a fundamental task in computer graphics and vision. However, existing methods like
-              auto-rigging and pose-conditioned generation often struggle with challenges such as inaccurate skinning
-              weight prediction, topological imperfections, and poor pose conformance, limiting their robustness and
-              generalizability.
+              Posing 3D characters is a fundamental task in computer graphics.
+              However, existing paradigms, ranging from traditional auto-rigging to recent pose-conditioned generative
+              models, frequently struggle with inaccurate skinning weights, fixed mesh topologies, and poor pose
+              conformance. These challenges have become particularly pronounced with the recent explosion of
+              AI-generated 3D assets, which often exhibit flawed structures and fused geometry.
             </p>
             <p>
-              To overcome these limitations, we introduce <span class="dnerf">Make-It-Poseable</span>, a novel
-              feed-forward framework that reformulates character posing as a latent-space transformation problem.
-              Instead of deforming mesh vertices as in traditional pipelines, our method reconstructs the character in
-              new poses by directly manipulating its latent representation.
-              At the core of our method is a latent posing transformer that manipulates shape tokens based on skeletal
-              motion. This process is facilitated by a dense pose representation for precise control. To ensure
-              high-fidelity geometry and accommodate topological changes, we also introduce a latent-space supervision
-              strategy and an adaptive completion module.
+              To address these issues, we introduce <span class="dnerf">Make-It-Poseable</span>, a novel feed-forward
+              framework that reformulates character posing as a skinning-free latent-space transformation problem.
+              By decoupling shape deformation from the constraints of fixed mesh connectivity, our method directly
+              operates on compact latent representations to reconstruct characters in target poses.
+              To achieve this, our framework integrates a latent posing transformer for shape manipulation, a dense pose
+              representation for fine-grained control, and an adaptive completion module optimized via a
+              bipartite-matched latent loss to robustly handle topological changes.
             </p>
             <p>
-              Our method demonstrates superior performance in posing quality. It also naturally extends to 3D editing
-              applications like part replacement and refinement.
+              Extensive experiments demonstrate that our method significantly outperforms existing baselines in posing
+              quality. Furthermore, our skeleton-agnostic design exhibits remarkable zero-shot generalization to diverse
+              morphologies including quadrupeds and seamlessly supports various 3D authoring applications such as part
+              replacement and refinement.
             </p>
           </div>
           <img src="./static/images/pipeline.jpg" alt="pipline_figure">
@@ -304,10 +309,9 @@
               <b>(a)</b> The skeleton encoder produces dense pose representations with latent-level one-to-one
               correspondence.<br>
               <b>(b)</b> Latent-space supervision ensures a semantically meaningful token transformation path to
-              preserve
-              geometric details.<br>
-              <b>(c)</b> Adaptive tokens are introduced in the finetuning stage to handle newly exposed structures after
-              deformation.
+              preserve geometric details.<br>
+              <b>(c)</b> Adaptive completion is introduced in the finetuning stage to handle newly exposed structures
+              after posing.
             </p>
           </div>
         </div>
@@ -327,7 +331,7 @@
               method.
             </p>
             <div class="has-text-centered">
-              <img src="./static/images/compare.jpg" style="width: 80%; height: auto;">
+              <img src="./static/images/compare.jpg" style="width: 100%; height: auto;">
             </div>
           </div>
         </div>
@@ -394,23 +398,22 @@
           <div class="content">
             <h2 class="title is-3">Applications</h2>
 
-            <p>
-              <span class="dnerf">Make-It-Poseable</span> can facilitate character animation in two ways:<br>
-              (1) First re-pose the input mesh into a rest pose with limbs fully extended (effectively resolving the
-              skinning and topology issues), then rig and animate it using standard workflows.<br>
-              (2) Directly apply target motions to generate a mesh sequence, leveraging our method's detail consistency
-              and fast speed.
-            </p>
+            <span class="dnerf">Make-It-Poseable</span> can serve as a robust pre-rigging geometry refiner for
+            downstream animation.
+            This can be realized by first re-posing a defective input mesh into a clean rest pose with limbs fully
+            extended, and then rigging and animating it using standard pipelines.
+            This integrates seamlessly with existing graphics workflows while effectively resolving the skinning and
+            topology issues by providing a clean base character.
+
             <video autoplay controls muted loop playsinline height="100%">
-              <source src="./static/videos/animation_lq.mp4" type="video/mp4">
+              <source src="./static/videos/showcase_lq.mp4" type="video/mp4">
             </video>
 
             <br><br>
 
             <p>
-              The fine-grained control offered by our latent-space modeling also enables some 3D editing applications
-              such as
-              segmentation, replacement, and refinement of body parts.
+              The fine-grained and flexible control offered by our latent-space modeling also enables some 3D shape
+              editing applications.
             </p>
             <div class="has-text-centered">
               <img src="./static/images/applications.jpg" style="width: 50%; height: auto;">
@@ -427,8 +430,8 @@
     <div class="container is-max-desktop content">
       <h2 class="title">Citation</h2>
       <pre><code>@article{guo2025make,
-    author={Guo, Zhiyang and Zhang, Ran and Xiang, Jinxu and Zhao, Alan and Zhou, Wengang and Li, Houqiang},
-    title={Make-It-Poseable: Feed-forward Latent Posing Model for 3D Humanoid Character Animation},
+    author={Guo, Zhiyang and Zhang, Ran and Xiang, Jinxu and Zhao, Alan and Yuan, Zhenxun and Zhou, Wengang and Li, Houqiang},
+    title={Make-It-Poseable: Feed-forward Latent Posing Model for 3D Characters},
     journal={arXiv preprint arXiv:2512.16767},
     year={2025},
 }</code></pre>
