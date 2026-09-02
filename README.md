@@ -1,11 +1,11 @@
 <div align="center">
 
-# Make-It-Poseable: Feed-forward Latent Posing Model for 3D Characters
+# Make-It-Poseable: Feed-forward Latent Posing Model for 3D Characters <br> (SIGGRAPH Asia 2026)
 
 _**<a href="https://jasongzy.github.io">Zhiyang Guo</a>,
 <a href="https://www.ran-zhang.com/">Ori Zhang</a>,
 Jax Xiang,
-Kai Ma,
+Alan Zhao,
 Zhenxun Yuan,
 Wengang Zhou,
 Houqiang Li**_
@@ -28,10 +28,10 @@ TBD
 ## Citation
 
 ```bibtex
-@article{guo2025make,
+@inproceedings{guo2026make,
     author={Guo, Zhiyang and Zhang, Ran and Xiang, Jinxu and Zhao, Alan and Yuan, Zhenxun and Zhou, Wengang and Li, Houqiang},
     title={Make-It-Poseable: Feed-forward Latent Posing Model for 3D Characters},
-    journal={arXiv preprint arXiv:2512.16767},
-    year={2025},
+    booktitle={SIGGRAPH Asia Conference Papers},
+    year={2026},
 }
 ```
